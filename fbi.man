@@ -188,6 +188,12 @@ In.
 \fB-\fP
 Out.
 .TP
+\fBw\fP
+Fit to width.
+.TP
+\fBo\fP
+Original size.
+.TP
 \fIi\fP\fBs\fP
 Set zoom to \fIi\fP%.
 .SS Other

@@ -516,7 +516,7 @@ static void show_help(void)
 	L"  PgDn, SPACE, j - next image",
 	L"  <i>g           - jump to image #i",
 	L"",
-	L"  a              - autozoom image",
+	L"  a/w/o          - autozoom/fit to width/original size",
 	L"  +/-            - zoom in/out",
 	L"  <i>s           - set zoom to <i>%",
 	L"",
@@ -1570,6 +1570,8 @@ int main(int argc, char *argv[])
 	case KEY_KPMINUS:
 	case KEY_A:
 	case KEY_S:
+	case KEY_W:
+	case KEY_O:
 	    {
 		float newscale, oldscale = fcurrent->scale;
 
@@ -1579,6 +1581,12 @@ int main(int argc, char *argv[])
 		    newscale = fcurrent->scale / 1.6;
 		} else if (key == KEY_A) {
 		    newscale = auto_scale(fcurrent->fimg);
+		} else if (key == KEY_O) {
+		    newscale = 1.0;
+		} else if (key == KEY_W) {
+		    fitwidth = 1;
+		    newscale = auto_scale(fcurrent->fimg);
+		    fitwidth = 0;
 		} else {
 		    newscale = arg / 100.0;
 		}
