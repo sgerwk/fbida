@@ -262,12 +262,12 @@ void shadow_darkify(int x1, int x2, int y1,int y2, int percent)
     if (x1 < 0)
 	x1 = 0;
     if (x2 >= swidth)
-	x2 = swidth;
+	x2 = swidth - 1;
 
     if (y1 < 0)
 	y1 = 0;
     if (y2 >= sheight)
-	y2 = sheight;
+	y2 = sheight - 1;
 
     percent = percent * 256 / 100;
 
