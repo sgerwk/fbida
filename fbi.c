@@ -1374,9 +1374,9 @@ int main(int argc, char *argv[])
 	fbi_write_config();
 
     once        = GET_ONCE();
-    autoup      = GET_AUTO_UP() || GET_FIT_WIDTH();
-    autodown    = GET_AUTO_DOWN() || GET_FIT_WIDTH();
-    fitwidth    = GET_FIT_WIDTH();
+    autoup      = GET_AUTO_UP() || GET_FIT_WIDTH() || GET_TEXT_MODE();
+    autodown    = GET_AUTO_DOWN() || GET_FIT_WIDTH() || GET_TEXT_MODE();
+    fitwidth    = GET_FIT_WIDTH() || GET_TEXT_MODE();
     statusline  = GET_VERBOSE();
     comments    = GET_COMMENTS();
     textreading = GET_TEXT_MODE();
@@ -1547,6 +1547,10 @@ int main(int argc, char *argv[])
 	    fcurrent = flist_next(fcurrent,1,0);
 	    if (NULL != fcurrent)
 		break;
+	    if (textreading) {
+		fcurrent = fprev;
+		break;
+	    }
 	    /* else fall */
 	case KEY_ESC:
 	case KEY_Q:
