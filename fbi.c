@@ -1374,8 +1374,8 @@ int main(int argc, char *argv[])
 	fbi_write_config();
 
     once        = GET_ONCE();
-    autoup      = GET_AUTO_UP();
-    autodown    = GET_AUTO_DOWN();
+    autoup      = GET_AUTO_UP() || GET_FIT_WIDTH();
+    autodown    = GET_AUTO_DOWN() || GET_FIT_WIDTH();
     fitwidth    = GET_FIT_WIDTH();
     statusline  = GET_VERBOSE();
     comments    = GET_COMMENTS();
