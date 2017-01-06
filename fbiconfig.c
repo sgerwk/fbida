@@ -75,6 +75,11 @@ struct cfg_cmdline fbi_cfg[] = {
 	.desc     = "  use width only for autoscaling",
 
     },{
+	.cmdline  = "pixelheight",
+	.option   = { O_PIXEL_HEIGHT },
+	.needsarg = 1,
+	.desc     = "  heigth of pixel in proportion to width",
+    },{
 	.letter   = 'v',
 	.cmdline  = "verbose",
 	.option   = { O_VERBOSE },

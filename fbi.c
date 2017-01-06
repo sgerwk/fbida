@@ -122,6 +122,7 @@ int editable;
 int blend_msecs;
 int perfmon = 0;
 int interactive = 0;
+float pixelheight = 1.0;
 
 /* font handling */
 static char *fontname = NULL;
@@ -643,7 +644,7 @@ scale_image(struct ida_image *src, float scale)
     memset(&p,0,sizeof(p));
 
     p.width  = src->i.width  * scale;
-    p.height = src->i.height * scale;
+    p.height = src->i.height * scale / pixelheight;
     p.dpi    = src->i.dpi;
     if (0 == p.width)
 	p.width = 1;
@@ -670,7 +671,7 @@ static float auto_scale(struct ida_image *img)
     xs = (float)gfx->hdisplay / img->i.width;
     if (fitwidth)
 	return xs;
-    ys = (float)gfx->vdisplay / img->i.height;
+    ys = (float)gfx->vdisplay / img->i.height * pixelheight;
     scale = (xs < ys) ? xs : ys;
     return scale;
 }
@@ -1124,7 +1125,7 @@ static void edit_desc(struct ida_image *img, char *filename)
 
 static struct ida_image *flist_img_get(struct flist *f)
 {
-    if (1 != f->scale)
+    if (f->simg)
 	return f->simg;
     else
 	return f->fimg;
@@ -1201,19 +1202,17 @@ static void flist_img_scale(struct flist *f, float scale, int prefetch)
 	free_image(f->simg);
 	f->simg = NULL;
     }
-    if (scale != 1) {
-	if (!prefetch) {
-	    snprintf(linebuffer, sizeof(linebuffer),
-		     "scaling (%.0f%%) %s ...",
-		     scale*100, f->name);
-	    status_update(linebuffer, NULL);
-	}
-	f->simg = scale_image(f->fimg,scale);
-	if (!f->simg) {
-	    snprintf(linebuffer,sizeof(linebuffer),
-		     "%s: scaling FAILED",f->name);
-	    status_error(linebuffer);
-	}
+    if (!prefetch) {
+        snprintf(linebuffer, sizeof(linebuffer),
+    	     "scaling (%.0f%%) %s ...",
+    	     scale*100, f->name);
+        status_update(linebuffer, NULL);
+    }
+    f->simg = scale_image(f->fimg,scale);
+    if (!f->simg) {
+        snprintf(linebuffer,sizeof(linebuffer),
+    	     "%s: scaling FAILED",f->name);
+        status_error(linebuffer);
     }
     f->scale = scale;
 }
@@ -1377,6 +1376,7 @@ int main(int argc, char *argv[])
     autoup      = GET_AUTO_UP() || GET_FIT_WIDTH() || GET_TEXT_MODE();
     autodown    = GET_AUTO_DOWN() || GET_FIT_WIDTH() || GET_TEXT_MODE();
     fitwidth    = GET_FIT_WIDTH() || GET_TEXT_MODE();
+    pixelheight = GET_PIXEL_HEIGHT();
     statusline  = GET_VERBOSE();
     comments    = GET_COMMENTS();
     textreading = GET_TEXT_MODE();

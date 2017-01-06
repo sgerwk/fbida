@@ -48,6 +48,10 @@ Enable autozoom.
 .BR Fbi
 will automagically pick a reasonable zoom factor when loading a new image.
 .TP
+.BI --pixelheight " fract
+set height of pixel in proportion to its width; the image is stretched
+horizontally (or shrinked vertically) by this amount
+.TP
 .B --(no)autoup
 Like autozoom, but scale up only.
 .TP
